@@ -15,7 +15,6 @@ SYSTEM_PROMPT = (
     "Your task is to carefullly analyze the given content, give an overall summary, "
     "enpoints to be used, methods to be used, and other relevant information."
     "Return the response in a structured format."
-    
 )
 USER_PROMPT = "Please analyze the following"
 
@@ -23,7 +22,7 @@ url = "https://pypi.org/project/beautifulsoup4/"
 contents = fetch_doc_contents(url)
 
 
-def messages_for(website, url):
+def messages_for(contents):
     return [
         {
             "role": "system",
@@ -31,7 +30,7 @@ def messages_for(website, url):
         },
         {
             "role": "user",
-            "content": USER_PROMPT.format(contents=website) + " website: " + url
+            "content": USER_PROMPT + ":\n\n" + contents
         }
     ]
 
@@ -39,8 +38,8 @@ def messages_for(website, url):
 def summarize(url):
     website = fetch_doc_contents(url)
     response = gemini.chat.completions.create(
-        model="gemini-3.1-flash-lite",
-        messages=messages_for(website, url)
+        model = "gemini-3.1-flash-lite",
+        messages = messages_for(website)
     )
     return response.choices[0].message.content
 
