@@ -1,0 +1,4 @@
+requests
+beautifulsoup4
+dotenv
+openai>=1.109.1
